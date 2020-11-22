@@ -1,11 +1,30 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {Hello} from "./components/hello";
+import {HashRouter as Router, Route} from "react-router-dom";
+import {Navigation} from "./components/navigation";
+// import {Hello} from "./components/hello";
+import {EventListContainer} from "./components/event_list_container";
+import { EventBookingFormContainer } from "./components/event_booking_form_container";
+
+class App extends React.Component<{}, {}> {
+  render() {
+    const eventList = () => <EventListContainer eventServiceURL="http://localhost:8181/events" />
+    const eventBooking = ({match}: any) => <EventBookingFormContainer eventID={match.params.id} eventServiceURL="http://localhost:8181/events" bookingServiceURL="http://localhost:8282" />
+
+    return <Router>
+      <Navigation brandName="MyEvents"/>
+      <div className="container">
+        <h1>MyEvents</h1>
+
+        <Route exact path="/" component={eventList}/>
+        <Route path="/events/:id/book" component={eventBooking} />
+      </div>
+    </Router>
+  }
+  
+}
 
 ReactDOM.render(
-  <div className="container">
-    <h1>MyEvents</h1>
-    <Hello name="World"></Hello>
-  </div>,
+  <App/>,
   document.getElementById("myevents-app")
-);
+)
