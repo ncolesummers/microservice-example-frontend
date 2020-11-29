@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+        - 6
+env:
+        - SERVICE=frontend
+install:
+        - npm install -g webpack typescript
+        - npm install
+script:
+        - webpack
+after_success:        
+        - if [ -n "${TRAVIS_TAG}" ] ; then
+          docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}";
+          docker push myevents/${SERVICE}:${TRAVIS_BRANCH}";
+          fi
