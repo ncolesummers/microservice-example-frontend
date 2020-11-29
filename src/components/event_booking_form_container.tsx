@@ -2,18 +2,18 @@ import * as React from "react";
 import {EventBookingForm} from "./event_booking_form";
 import {Event} from "../model/event"
 
-export class EventBookingFormContainerProps {
+export interface EventBookingFormContainerProps {
   eventID: string;
   eventServiceURL: string;
   bookingServiceURL: string;
 }
 
-export class EventBookingFormContainerState {
+export interface EventBookingFormState {
   state: "loading" | "ready" | "saving" | "done" | "error";
   event?: Event;
 }
 
-export class EventBookingFormContainer extends React.Component<EventBookingFormContainerProps, EventBookingFormContainerState> {
+export class EventBookingFormContainer extends React.Component<EventBookingFormContainerProps, EventBookingFormState> {
   constructor(p: EventBookingFormContainerProps) {
     super(p);
 
@@ -25,33 +25,25 @@ export class EventBookingFormContainer extends React.Component<EventBookingFormC
         this.setState({
           state: "ready",
           event: event
-        })
-      });
+        });
+      })
   }
 
   render() {
     if (this.state.state === "loading") {
-      return <div>Loading...</div>
+        return <div>Loading...</div>;
     }
 
-    if (this.state.state === "saving") {
-      return <div>Saving...</div>
+    if (!this.state.event) {
+        return <div>Unknown error</div>;
     }
 
     if (this.state.state === "done") {
-      return <div className="alert alert-success">
-        Booking completed!  Thank you!
-      </div>
+        return <div className="alert alert-success">Booking successfully completed!</div>
     }
 
-    if (this.state.state === "error" || !this.state.event) {
-      return <div className="alert alert-danger">
-        Unkown error!
-      </div>
-    }
-
-    return <EventBookingForm event={this.state.event} onSubmit={seats => this.handleSubmit(seats)} />
-  }
+    return <EventBookingForm event={this.state.event} onSubmit={amount => this.handleSubmit(amount)}/>
+}
 
   private handleSubmit(seats: number) {
     const url = this.props.bookingServiceURL + "/events/" + this.props.eventID + "/bookings";
@@ -64,6 +56,7 @@ export class EventBookingFormContainer extends React.Component<EventBookingFormC
 
     fetch(url, {method: "POST", body: JSON.stringify(payload)})
     .then(response => {
+      console.log("foo")
       this.setState({
         event: this.state.event,
         state: response.ok ? "done" : "error"

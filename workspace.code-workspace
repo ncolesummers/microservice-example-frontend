@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../go/src/github.com/ncolesummers/microservice-example"
+		}
+	],
+	"remoteAuthority": "wsl+openSUSE-Leap-15.2",
+	"settings": {}
+}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import {ChangeEvent} from "react";
 import {Event} from "../model/event";
 import {FormRow} from "./form_row";
 
@@ -15,10 +16,12 @@ export class EventBookingForm extends React.Component<EventBookingFormProps, Eve
   constructor(p: EventBookingFormProps) {
     super(p);
 
-    this.state = {selectedAmount: 1};
+    this.state = {
+      selectedAmount: 1
+    }
   }
 
-  private handleNewAmount(event: React.ChangeEvent<HTMLSelectElement>) {
+  private handleNewAmount(event: ChangeEvent<HTMLSelectElement>) {
     const newState: EventBookingFormState = {
       selectedAmount: parseInt(event.target.value)
     };
@@ -37,10 +40,10 @@ export class EventBookingForm extends React.Component<EventBookingFormProps, Eve
         </FormRow>
         <FormRow label="Number of tickets">
           <select className="form-control" value={this.state.selectedAmount} onChange={event => this.handleNewAmount(event)}>
-            <option value="1" className="1"></option>
-            <option value="2" className="2"></option>
-            <option value="3" className="3"></option>
-            <option value="4" className="4"></option>
+            <option value="1" >1</option>
+            <option value="2" >2</option>
+            <option value="3" >3</option>
+            <option value="4" >4</option>
           </select>
         </FormRow>
         <FormRow>

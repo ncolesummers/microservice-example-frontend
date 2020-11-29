@@ -8,8 +8,11 @@ import { EventBookingFormContainer } from "./components/event_booking_form_conta
 
 class App extends React.Component<{}, {}> {
   render() {
-    const eventList = () => <EventListContainer eventServiceURL="http://localhost:8181/events" />
-    const eventBooking = ({match}: any) => <EventBookingFormContainer eventID={match.params.id} eventServiceURL="http://localhost:8181/events" bookingServiceURL="http://localhost:8282" />
+    const eventList = () => <EventListContainer eventServiceURL="http://localhost:8181" />;
+    const eventBooking = ({match}: any) => <EventBookingFormContainer 
+    eventID={match.params.id} 
+    eventServiceURL="http://localhost:8181" 
+    bookingServiceURL="http://localhost:8282" />;
 
     return <Router>
       <Navigation brandName="MyEvents"/>
